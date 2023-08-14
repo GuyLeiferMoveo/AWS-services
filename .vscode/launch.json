@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Local Lambda",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["start"],
+        "skipFiles": ["<node_internals>/**"],
+        "outFiles": ["${workspaceFolder}/.webpack/**/*.js"],
+        "internalConsoleOptions": "openOnSessionStart",
+        "sourceMapPathOverrides": {
+            "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+            "webpack:///src/*": "${workspaceFolder}/src/*"
+          }
+      }
+    ]
+  }
+  
