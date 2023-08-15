@@ -13,6 +13,18 @@ export const functions = {
       },
     ],
   },
+  dynamoDb: {
+    handler: "dynamoDb/index.handler",
+    role: moveoRuleARN,
+    events: [
+      {
+        http: {
+          method: "post",
+          path: "dynamoDb",
+        },
+      },
+    ],
+  },
   postUser: {
     handler: "postUser/index.handler",
     role: moveoRuleARN,

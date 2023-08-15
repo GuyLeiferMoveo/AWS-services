@@ -77,6 +77,12 @@
         "LogGroupName": "/aws/lambda/lambda-DEV-userPool"
       }
     },
+    "DynamoDbLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/lambda-DEV-dynamoDb"
+      }
+    },
     "PostUserLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -108,7 +114,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambda/DEV/1691705611081-2023-08-10T22:13:31.081Z/lambda.zip"
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
         },
         "Handler": "userPool/index.handler",
         "Runtime": "nodejs14.x",
@@ -119,7 +125,7 @@
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-            "DB_TABLE_NAME": "users",
+            "DB_TABLE_NAME": "users2",
             "LOGGER_ENABLE": "true",
             "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
           }
@@ -130,6 +136,35 @@
         "UserPoolLogGroup"
       ]
     },
+    "DynamoDbLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+        },
+        "Handler": "dynamoDb/index.handler",
+        "Runtime": "nodejs14.x",
+        "FunctionName": "lambda-DEV-dynamoDb",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
+            "DB_TABLE_NAME": "users2",
+            "LOGGER_ENABLE": "true",
+            "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
+          }
+        },
+        "Role": "arn:aws:iam::779000067130:role/Moveo-LambdaExecutionRole"
+      },
+      "DependsOn": [
+        "DynamoDbLogGroup"
+      ]
+    },
     "PostUserLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -137,7 +172,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambda/DEV/1691705611081-2023-08-10T22:13:31.081Z/lambda.zip"
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
         },
         "Handler": "postUser/index.handler",
         "Runtime": "nodejs14.x",
@@ -148,7 +183,7 @@
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-            "DB_TABLE_NAME": "users",
+            "DB_TABLE_NAME": "users2",
             "LOGGER_ENABLE": "true",
             "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
           }
@@ -166,7 +201,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambda/DEV/1691705611081-2023-08-10T22:13:31.081Z/lambda.zip"
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
         },
         "Handler": "getUser/index.handler",
         "Runtime": "nodejs14.x",
@@ -177,7 +212,7 @@
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-            "DB_TABLE_NAME": "users",
+            "DB_TABLE_NAME": "users2",
             "LOGGER_ENABLE": "true",
             "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
           }
@@ -195,7 +230,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambda/DEV/1691705611081-2023-08-10T22:13:31.081Z/lambda.zip"
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
         },
         "Handler": "userLogin/index.handler",
         "Runtime": "nodejs14.x",
@@ -206,7 +241,7 @@
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-            "DB_TABLE_NAME": "users",
+            "DB_TABLE_NAME": "users2",
             "LOGGER_ENABLE": "true",
             "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
           }
@@ -224,7 +259,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambda/DEV/1691705611081-2023-08-10T22:13:31.081Z/lambda.zip"
+          "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
         },
         "Handler": "updateUser/index.handler",
         "Runtime": "nodejs14.x",
@@ -235,7 +270,7 @@
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-            "DB_TABLE_NAME": "users",
+            "DB_TABLE_NAME": "users2",
             "LOGGER_ENABLE": "true",
             "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
           }
@@ -246,54 +281,64 @@
         "UpdateUserLogGroup"
       ]
     },
-    "UserPoolLambdaVersionhDgLqbCmPdqkXs0UJl09OhKfUeFqzfYjPCxfT2pgXo": {
+    "UserPoolLambdaVersionAzP0CokLbcNA4zejAvQb92PTMNcc3R57G7LTTpUUec": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UserPoolLambdaFunction"
         },
-        "CodeSha256": "aOJOgKqfhMqr0b0/DMnRCECxJQpdCnBKAdBnQvbZxYQ="
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
       }
     },
-    "PostUserLambdaVersiong3hPF2e761iMg8d355UBCoIIxWGxS5KQ48aNONf1Yc": {
+    "DynamoDbLambdaVersionubfDt2GYKp3UwMg2SutQcnKL2J8sysP2T48MFY": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "DynamoDbLambdaFunction"
+        },
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+      }
+    },
+    "PostUserLambdaVersionfYSkoYM3hPybfi8u383QksL8jNrZL3Es9g1EDvPjSUc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PostUserLambdaFunction"
         },
-        "CodeSha256": "aOJOgKqfhMqr0b0/DMnRCECxJQpdCnBKAdBnQvbZxYQ="
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
       }
     },
-    "GetUserLambdaVersionP2mjdFUNmwHf0849gAxNtjco5HkeC7wQsgtH7NKiHj4": {
+    "GetUserLambdaVersionTtht7ToPblcHvpOac67qTGMntjpz5IrQ52auc2CEy0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserLambdaFunction"
         },
-        "CodeSha256": "aOJOgKqfhMqr0b0/DMnRCECxJQpdCnBKAdBnQvbZxYQ="
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
       }
     },
-    "UserLoginLambdaVersionEeIQFh7XGIcZpXHwOp4b6ZwLONTP5inzhGZqYyYBLg": {
+    "UserLoginLambdaVersionw9Ki5GdHzjec8T2u4cAe8wx9oGTWU7Lqr6AzpT9Rg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UserLoginLambdaFunction"
         },
-        "CodeSha256": "aOJOgKqfhMqr0b0/DMnRCECxJQpdCnBKAdBnQvbZxYQ="
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
       }
     },
-    "UpdateUserLambdaVersion4YtfrhaITvmV0FWxe6KVDCXWBEO85LzdW4aFuQfh4M": {
+    "UpdateUserLambdaVersionjtCeF7treV8uoIu73aO11d52wMD3R5FVerwwY2BO8A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateUserLambdaFunction"
         },
-        "CodeSha256": "aOJOgKqfhMqr0b0/DMnRCECxJQpdCnBKAdBnQvbZxYQ="
+        "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
       }
     },
     "ApiGatewayRestApi": {
@@ -318,6 +363,21 @@
           ]
         },
         "PathPart": "userPool",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceDynamodb": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "dynamoDb",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -394,6 +454,52 @@
       },
       "DependsOn": [
         "UserPoolLambdaPermissionApiGateway"
+      ]
+    },
+    "ApiGatewayMethodDynamodbPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceDynamodb"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "DynamoDbLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "DynamoDbLambdaPermissionApiGateway"
       ]
     },
     "ApiGatewayMethodUserPost": {
@@ -580,7 +686,7 @@
         "UpdateUserLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1691705602973": {
+    "ApiGatewayDeployment1692024897636": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -590,6 +696,7 @@
       },
       "DependsOn": [
         "ApiGatewayMethodUserpoolPost",
+        "ApiGatewayMethodDynamodbPost",
         "ApiGatewayMethodUserPost",
         "ApiGatewayMethodUserGet",
         "ApiGatewayMethodUserLoginPost",
@@ -602,6 +709,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "UserPoolLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "DynamoDbLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "DynamoDbLambdaFunction",
             "Arn"
           ]
         },
@@ -794,16 +938,25 @@
     "UserPoolLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UserPoolLambdaVersionhDgLqbCmPdqkXs0UJl09OhKfUeFqzfYjPCxfT2pgXo"
+        "Ref": "UserPoolLambdaVersionAzP0CokLbcNA4zejAvQb92PTMNcc3R57G7LTTpUUec"
       },
       "Export": {
         "Name": "sls-lambda-DEV-UserPoolLambdaFunctionQualifiedArn"
       }
     },
+    "DynamoDbLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "DynamoDbLambdaVersionubfDt2GYKp3UwMg2SutQcnKL2J8sysP2T48MFY"
+      },
+      "Export": {
+        "Name": "sls-lambda-DEV-DynamoDbLambdaFunctionQualifiedArn"
+      }
+    },
     "PostUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PostUserLambdaVersiong3hPF2e761iMg8d355UBCoIIxWGxS5KQ48aNONf1Yc"
+        "Ref": "PostUserLambdaVersionfYSkoYM3hPybfi8u383QksL8jNrZL3Es9g1EDvPjSUc"
       },
       "Export": {
         "Name": "sls-lambda-DEV-PostUserLambdaFunctionQualifiedArn"
@@ -812,7 +965,7 @@
     "GetUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserLambdaVersionP2mjdFUNmwHf0849gAxNtjco5HkeC7wQsgtH7NKiHj4"
+        "Ref": "GetUserLambdaVersionTtht7ToPblcHvpOac67qTGMntjpz5IrQ52auc2CEy0"
       },
       "Export": {
         "Name": "sls-lambda-DEV-GetUserLambdaFunctionQualifiedArn"
@@ -821,7 +974,7 @@
     "UserLoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UserLoginLambdaVersionEeIQFh7XGIcZpXHwOp4b6ZwLONTP5inzhGZqYyYBLg"
+        "Ref": "UserLoginLambdaVersionw9Ki5GdHzjec8T2u4cAe8wx9oGTWU7Lqr6AzpT9Rg"
       },
       "Export": {
         "Name": "sls-lambda-DEV-UserLoginLambdaFunctionQualifiedArn"
@@ -830,7 +983,7 @@
     "UpdateUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateUserLambdaVersion4YtfrhaITvmV0FWxe6KVDCXWBEO85LzdW4aFuQfh4M"
+        "Ref": "UpdateUserLambdaVersionjtCeF7treV8uoIu73aO11d52wMD3R5FVerwwY2BO8A"
       },
       "Export": {
         "Name": "sls-lambda-DEV-UpdateUserLambdaFunctionQualifiedArn"
