@@ -7,9 +7,7 @@ export const handler = async (event: any) => {
     const dynamoDbTable = await createTableIfNotExists();
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        dynamoDbTable: dynamoDbTable?.$response,
-      }),
+      body: JSON.stringify({ dynamoDbTable: dynamoDbTable }),
     };
   } catch (error: any) {
     logger("error", error);

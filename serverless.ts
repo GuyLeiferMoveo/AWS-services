@@ -13,8 +13,8 @@ const serverlessConfiguration = {
     profile: "default", // Replace with your AWS profile name
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
-      APP_CLIENT_ID: "4f0u7m4bja6if53uuoloktbaf6",
-      DB_TABLE_NAME: "users2",
+      APP_CLIENT_ID: "4pivk3kih3m8tlgepnht69hb8a",
+      DB_TABLE_NAME: "guyLeifer-users",
       LOGGER_ENABLE: true,
       AUTH_FLOW_TYPE: "USER_PASSWORD_AUTH",
     },

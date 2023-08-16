@@ -21,7 +21,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "keywords": [],
-  "author": "",
+  "author": "Guy Leifer",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.3.1",

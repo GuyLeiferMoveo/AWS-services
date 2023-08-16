@@ -20,18 +20,10 @@ export const createTableIfNotExists = async () => {
           AttributeName: "userId",
           KeyType: "HASH", // Partition key
         },
-        {
-          AttributeName: "email",
-          KeyType: "RANGE", // Sort key
-        },
       ],
       AttributeDefinitions: [
         {
           AttributeName: "userId",
-          AttributeType: "S",
-        },
-        {
-          AttributeName: "email",
           AttributeType: "S",
         },
       ],
