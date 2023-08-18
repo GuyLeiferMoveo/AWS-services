@@ -1,7 +1,18 @@
 import { CognitoIdentityServiceProvider, DynamoDB } from "aws-sdk";
 import { cognitoIdentityServiceProvider } from "../aws-config/cognito";
 import { dynamoDb } from "../aws-config/dynamoDB";
-import { logger } from "../utils/logger";
+import { APIGatewayProxyHandler } from "aws-lambda";
+import {
+  isUserAuthenticatedAuthorizer,
+  unauthorizedResponse,
+} from "../utils/authorizer";
+import { createResponse } from "../aws-config/apiGetway";
+import {
+  validateIsraeliID,
+  validateIsraeliPhoneNumber,
+  validateRequest,
+  validateStringMaxLength,
+} from "../utils/validations";
 
 const bodyIndex: any = {
   firstName: {
@@ -18,32 +29,14 @@ const bodyIndex: any = {
   },
 };
 
-exports.handler = async (event: any) => {
-  let accessToken = undefined;
-  if (
-    event.headers.Authorization &&
-    event.headers.Authorization.split(" ").length === 2
-  )
-    accessToken = event.headers.Authorization.split(" ")[1];
-
-  const authParams = {
-    AccessToken: accessToken,
-  };
+export const handler: APIGatewayProxyHandler = async (event) => {
+  if (!isUserAuthenticatedAuthorizer(event)) return unauthorizedResponse;
 
   try {
-    const authResponse = await cognitoIdentityServiceProvider
-      .getUser(authParams)
-      .promise();
-    if (!authResponse) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({
-          error: "Unauthorized",
-        }),
-      };
-    }
+    const { valid, message } = validateRequest(event, validations);
+    if (!valid) throw new Error(message);
 
-    const requestBody = event.body;
+    const requestBody = event.body || "";
     const requestBodyJson = JSON.parse(requestBody);
 
     const detailsToUpdate = { ...requestBodyJson };
@@ -65,21 +58,16 @@ exports.handler = async (event: any) => {
 
     updateExpression = updateExpression.slice(0, -2);
 
-    logger("UserAttributes", UserAttributes);
-    logger("expressionAttributeValues", expressionAttributeValues);
-    logger("updateExpression", updateExpression);
-
     const updateParams: CognitoIdentityServiceProvider.UpdateUserAttributesRequest =
       {
-        AccessToken: accessToken,
+        // AccessToken: event.requestContext.authorizer?.claims.jti, // TODO - fix
+        AccessToken: event.headers.Authorization?.split(" ")[1] || "",
         UserAttributes: UserAttributes,
       };
-    logger("updateParams", updateParams);
 
     const updateResponse = await cognitoIdentityServiceProvider
       .updateUserAttributes(updateParams)
       .promise();
-    logger("updateResponse", updateResponse);
 
     const params: DynamoDB.DocumentClient.UpdateItemInput = {
       TableName: process.env.DB_TABLE_NAME || "",
@@ -90,23 +78,18 @@ exports.handler = async (event: any) => {
       ExpressionAttributeValues: expressionAttributeValues,
       ReturnValues: "ALL_NEW",
     };
-    logger("params", params);
 
     const result = await dynamoDb.update(params).promise();
-    logger("result", result);
-
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(result.Attributes),
-    };
-    logger("response", response);
-
-    return response;
+    return createResponse(200, result.Attributes || {});
   } catch (error: any) {
-    const response = {
-      statusCode: 500,
-      body: JSON.stringify({ message: error.message }),
-    };
-    return response;
+    return createResponse(500, { error: error.message });
   }
+};
+
+const validations: Record<string, (value: string) => boolean> = {
+  firstName: (value: string) => validateStringMaxLength(value, 20),
+  lastName: (value: string) => validateStringMaxLength(value, 20),
+  password: (value: string) => validateStringMaxLength(value, 20),
+  phoneNumber: (value: string) => validateIsraeliPhoneNumber(value),
+  userId: (value: string) => validateIsraeliID(value),
 };

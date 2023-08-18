@@ -1,35 +1,24 @@
 import { DynamoDB, CognitoIdentityServiceProvider } from "aws-sdk";
 import { cognitoIdentityServiceProvider } from "../aws-config/cognito";
 import { dynamoDb } from "../aws-config/dynamoDB";
-import { logger } from "../utils/logger";
+import { APIGatewayProxyHandler } from "aws-lambda";
 import {
   validateIsraeliID,
   validateIsraeliPhoneNumber,
+  validateRequest,
   validateStringMaxLength,
-  validateStringMinLength,
-} from "./helpers";
+} from "../utils/validations";
+import { createResponse } from "../aws-config/apiGetway";
 
-export const handler = async (event: any) => {
-  logger("event", event);
-
-  const requestBody = JSON.parse(event.body);
-  logger("requestBody", requestBody);
-  const { firstName, lastName, email, password, phoneNumber, userId } =
-    requestBody;
+export const handler: APIGatewayProxyHandler = async (event) => {
   try {
-    logger("Start Validating");
-    if (
-      validateStringMaxLength(firstName, 20) ||
-      validateStringMaxLength(lastName, 20) ||
-      validateStringMinLength(password, 6)
-    )
-      throw new Error("Not valid params");
-    if (!validateIsraeliPhoneNumber(phoneNumber))
-      throw new Error("Not valid phone number");
-    const phoneNumberWithCountryCode = "+972".concat(phoneNumber.substr(1));
-    if (!validateIsraeliID(userId)) throw new Error("Not valid ID");
-    logger("Validated Succesfully");
+    const { valid, message } = validateRequest(event, validations);
+    if (!valid) throw new Error(message);
 
+    const requestBody = JSON.parse(event.body!);
+    const { firstName, lastName, email, password, phoneNumber, userId } =
+      requestBody;
+    const phoneNumberWithCountryCode = "+972".concat(phoneNumber.substr(1));
     // Create params for signUp method
     const paramsForCognito: CognitoIdentityServiceProvider.SignUpRequest = {
       ClientId: process.env.APP_CLIENT_ID || "",
@@ -58,12 +47,10 @@ export const handler = async (event: any) => {
         // },
       ],
     };
-    logger("paramsForCognito", paramsForCognito);
 
     const user = await cognitoIdentityServiceProvider
       .signUp(paramsForCognito)
       .promise();
-    logger("user", user);
 
     const paramsForDDB: DynamoDB.DocumentClient.PutItemInput = {
       TableName: process.env.DB_TABLE_NAME || "",
@@ -77,23 +64,19 @@ export const handler = async (event: any) => {
         userId,
       },
     };
-    logger("paramsForDDB", paramsForDDB);
 
     await dynamoDb.put(paramsForDDB).promise();
 
-    const response = {
-      statusCode: 201,
-      body: JSON.stringify(paramsForDDB.Item.userId),
-    };
-    logger("response", response);
-
-    return response;
+    return createResponse(201, paramsForDDB.Item.userId);
   } catch (error: any) {
-    logger("error", error);
-    const response = {
-      statusCode: 400,
-      body: JSON.stringify({ error: error.message }),
-    };
-    return response;
+    return createResponse(400, { error: error.message });
   }
+};
+
+const validations: Record<string, (value: string) => boolean> = {
+  firstName: (value: string) => validateStringMaxLength(value, 20),
+  lastName: (value: string) => validateStringMaxLength(value, 20),
+  password: (value: string) => validateStringMaxLength(value, 20),
+  phoneNumber: (value: string) => validateIsraeliPhoneNumber(value),
+  userId: (value: string) => validateIsraeliID(value),
 };

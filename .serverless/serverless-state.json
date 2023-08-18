@@ -12,10 +12,32 @@
       "profile": "default",
       "environment": {
         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-        "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-        "DB_TABLE_NAME": "users2",
+        "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+        "DB_TABLE_NAME": "guyLeifer-users",
         "LOGGER_ENABLE": "true",
         "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
+      },
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "cognito-idp:ListUserPools",
+                "cognito-idp:CreateUserPool"
+              ],
+              "Resource": "arn:aws:cognito-idp:eu-west-1:779000067130:userpool/*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "cognito-idp:AdminCreateUser",
+                "cognito-idp:AdminUpdateUserAttributes"
+              ],
+              "Resource": "arn:aws:cognito-idp:eu-west-1:779000067130:userpool/eu-west-1_qKZ7VW7u4"
+            }
+          ]
+        }
       },
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
@@ -134,7 +156,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "userPool/index.handler",
               "Runtime": "nodejs14.x",
@@ -144,8 +166,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -163,7 +185,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "dynamoDb/index.handler",
               "Runtime": "nodejs14.x",
@@ -173,8 +195,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -192,7 +214,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "postUser/index.handler",
               "Runtime": "nodejs14.x",
@@ -202,8 +224,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -221,7 +243,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "getUser/index.handler",
               "Runtime": "nodejs14.x",
@@ -231,8 +253,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -250,7 +272,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "userLogin/index.handler",
               "Runtime": "nodejs14.x",
@@ -260,8 +282,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -279,7 +301,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z/lambda.zip"
+                "S3Key": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z/lambda.zip"
               },
               "Handler": "updateUser/index.handler",
               "Runtime": "nodejs14.x",
@@ -289,8 +311,8 @@
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "APP_CLIENT_ID": "4f0u7m4bja6if53uuoloktbaf6",
-                  "DB_TABLE_NAME": "users2",
+                  "APP_CLIENT_ID": "6r8d5bgr5mf7ahm08rptia1um1",
+                  "DB_TABLE_NAME": "guyLeifer-users",
                   "LOGGER_ENABLE": "true",
                   "AUTH_FLOW_TYPE": "USER_PASSWORD_AUTH"
                 }
@@ -301,64 +323,64 @@
               "UpdateUserLogGroup"
             ]
           },
-          "UserPoolLambdaVersionAzP0CokLbcNA4zejAvQb92PTMNcc3R57G7LTTpUUec": {
+          "UserPoolLambdaVersionwAdN3jvDMZ00s97L6vYWh1dtIx87w8znD9p5UTZIN6Y": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UserPoolLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
-          "DynamoDbLambdaVersionubfDt2GYKp3UwMg2SutQcnKL2J8sysP2T48MFY": {
+          "DynamoDbLambdaVersionyX77XBdZJeaamnH5VA081LEVsNr8n2FDMKDa8Pxw6o": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DynamoDbLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
-          "PostUserLambdaVersionfYSkoYM3hPybfi8u383QksL8jNrZL3Es9g1EDvPjSUc": {
+          "PostUserLambdaVersionzkxwmKVoyBzKON3dL4LCQBx5R6cJ8OPKOJguSad9KJk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PostUserLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
-          "GetUserLambdaVersionTtht7ToPblcHvpOac67qTGMntjpz5IrQ52auc2CEy0": {
+          "GetUserLambdaVersionTMxC7jv01RkgRGjVbh9Bf5TIObhyxaTeUuU18JHU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
-          "UserLoginLambdaVersionw9Ki5GdHzjec8T2u4cAe8wx9oGTWU7Lqr6AzpT9Rg": {
+          "UserLoginLambdaVersionZfogAUxZ7cQkebza7piYUg8jJVKO2u6p3nh2BDxPM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UserLoginLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
-          "UpdateUserLambdaVersionjtCeF7treV8uoIu73aO11d52wMD3R5FVerwwY2BO8A": {
+          "UpdateUserLambdaVersion8toHLMbOCTK6OsXQRzpES5EWDsiEEyngnTl1hcCM6Rg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdateUserLambdaFunction"
               },
-              "CodeSha256": "3tuOeWwwDa6lBtI/TPb5Zbaxn3s8w118yN0BfXq9Lz0="
+              "CodeSha256": "eZbG3dYKVl56BZpcL59jOHhDPz9I1oHTjJqolh5pvWw="
             }
           },
           "ApiGatewayRestApi": {
@@ -672,7 +694,10 @@
                 "Ref": "ApiGatewayRestApi"
               },
               "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
+              "AuthorizationType": "COGNITO_USER_POOLS",
+              "AuthorizerId": {
+                "Ref": "MyCognitoAuthorizer"
+              },
               "Integration": {
                 "IntegrationHttpMethod": "POST",
                 "Type": "AWS_PROXY",
@@ -706,7 +731,7 @@
               "UpdateUserLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1692024897636": {
+          "ApiGatewayDeployment1692293343770": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -944,6 +969,41 @@
                 ]
               }
             }
+          },
+          "MyCognitoUserPool": {
+            "Type": "AWS::Cognito::UserPool",
+            "Properties": {
+              "UserPoolName": "guyLeifer-skills"
+            }
+          },
+          "MyCognitoUserPoolClient": {
+            "Type": "AWS::Cognito::UserPoolClient",
+            "Properties": {
+              "UserPoolId": {
+                "Ref": "eu-west-1_PsmNFdo3z"
+              },
+              "ClientName": "guyLeifer-skills-app-client",
+              "GenerateSecret": false
+            }
+          },
+          "MyCognitoAuthorizer": {
+            "Type": "AWS::ApiGateway::Authorizer",
+            "Properties": {
+              "Name": "my-cognito-authorizer",
+              "Type": "COGNITO_USER_POOLS",
+              "IdentitySource": "method.request.header.Authorization",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ProviderARNs": [
+                {
+                  "Fn::GetAtt": [
+                    "MyCognitoUserPool",
+                    "Arn"
+                  ]
+                }
+              ]
+            }
           }
         },
         "Outputs": {
@@ -958,7 +1018,7 @@
           "UserPoolLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UserPoolLambdaVersionAzP0CokLbcNA4zejAvQb92PTMNcc3R57G7LTTpUUec"
+              "Ref": "UserPoolLambdaVersionwAdN3jvDMZ00s97L6vYWh1dtIx87w8znD9p5UTZIN6Y"
             },
             "Export": {
               "Name": "sls-lambda-DEV-UserPoolLambdaFunctionQualifiedArn"
@@ -967,7 +1027,7 @@
           "DynamoDbLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DynamoDbLambdaVersionubfDt2GYKp3UwMg2SutQcnKL2J8sysP2T48MFY"
+              "Ref": "DynamoDbLambdaVersionyX77XBdZJeaamnH5VA081LEVsNr8n2FDMKDa8Pxw6o"
             },
             "Export": {
               "Name": "sls-lambda-DEV-DynamoDbLambdaFunctionQualifiedArn"
@@ -976,7 +1036,7 @@
           "PostUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PostUserLambdaVersionfYSkoYM3hPybfi8u383QksL8jNrZL3Es9g1EDvPjSUc"
+              "Ref": "PostUserLambdaVersionzkxwmKVoyBzKON3dL4LCQBx5R6cJ8OPKOJguSad9KJk"
             },
             "Export": {
               "Name": "sls-lambda-DEV-PostUserLambdaFunctionQualifiedArn"
@@ -985,7 +1045,7 @@
           "GetUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserLambdaVersionTtht7ToPblcHvpOac67qTGMntjpz5IrQ52auc2CEy0"
+              "Ref": "GetUserLambdaVersionTMxC7jv01RkgRGjVbh9Bf5TIObhyxaTeUuU18JHU"
             },
             "Export": {
               "Name": "sls-lambda-DEV-GetUserLambdaFunctionQualifiedArn"
@@ -994,7 +1054,7 @@
           "UserLoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UserLoginLambdaVersionw9Ki5GdHzjec8T2u4cAe8wx9oGTWU7Lqr6AzpT9Rg"
+              "Ref": "UserLoginLambdaVersionZfogAUxZ7cQkebza7piYUg8jJVKO2u6p3nh2BDxPM"
             },
             "Export": {
               "Name": "sls-lambda-DEV-UserLoginLambdaFunctionQualifiedArn"
@@ -1003,7 +1063,7 @@
           "UpdateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdateUserLambdaVersionjtCeF7treV8uoIu73aO11d52wMD3R5FVerwwY2BO8A"
+              "Ref": "UpdateUserLambdaVersion8toHLMbOCTK6OsXQRzpES5EWDsiEEyngnTl1hcCM6Rg"
             },
             "Export": {
               "Name": "sls-lambda-DEV-UpdateUserLambdaFunctionQualifiedArn"
@@ -1147,7 +1207,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "UserPoolLambdaVersionAzP0CokLbcNA4zejAvQb92PTMNcc3R57G7LTTpUUec"
+        "versionLogicalId": "UserPoolLambdaVersionwAdN3jvDMZ00s97L6vYWh1dtIx87w8znD9p5UTZIN6Y"
       },
       "dynamoDb": {
         "handler": "dynamoDb/index.handler",
@@ -1169,7 +1229,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "DynamoDbLambdaVersionubfDt2GYKp3UwMg2SutQcnKL2J8sysP2T48MFY"
+        "versionLogicalId": "DynamoDbLambdaVersionyX77XBdZJeaamnH5VA081LEVsNr8n2FDMKDa8Pxw6o"
       },
       "postUser": {
         "handler": "postUser/index.handler",
@@ -1183,16 +1243,6 @@
             }
           }
         ],
-        "iamRoleStatements": [
-          {
-            "Effect": "Allow",
-            "Action": [
-              "cognito-idp:AdminCreateUser",
-              "cognito-idp:AdminUpdateUserAttributes"
-            ],
-            "Resource": "arn:aws:cognito-idp:eu-west-1:779000067130:userpool/eu-west-1_qKZ7VW7u4"
-          }
-        ],
         "name": "lambda-DEV-postUser",
         "package": {
           "artifact": ".serverless/lambda.zip"
@@ -1201,7 +1251,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "PostUserLambdaVersionfYSkoYM3hPybfi8u383QksL8jNrZL3Es9g1EDvPjSUc"
+        "versionLogicalId": "PostUserLambdaVersionzkxwmKVoyBzKON3dL4LCQBx5R6cJ8OPKOJguSad9KJk"
       },
       "getUser": {
         "handler": "getUser/index.handler",
@@ -1223,7 +1273,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetUserLambdaVersionTtht7ToPblcHvpOac67qTGMntjpz5IrQ52auc2CEy0"
+        "versionLogicalId": "GetUserLambdaVersionTMxC7jv01RkgRGjVbh9Bf5TIObhyxaTeUuU18JHU"
       },
       "userLogin": {
         "handler": "userLogin/index.handler",
@@ -1245,7 +1295,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "UserLoginLambdaVersionw9Ki5GdHzjec8T2u4cAe8wx9oGTWU7Lqr6AzpT9Rg"
+        "versionLogicalId": "UserLoginLambdaVersionZfogAUxZ7cQkebza7piYUg8jJVKO2u6p3nh2BDxPM"
       },
       "updateUser": {
         "handler": "updateUser/index.handler",
@@ -1255,6 +1305,16 @@
             "http": {
               "method": "put",
               "path": "user",
+              "authorizer": {
+                "type": "COGNITO_USER_POOLS",
+                "managedExternally": false,
+                "authorizerId": {
+                  "Ref": "MyCognitoAuthorizer"
+                },
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -1267,8 +1327,48 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "UpdateUserLambdaVersionjtCeF7treV8uoIu73aO11d52wMD3R5FVerwwY2BO8A"
+        "versionLogicalId": "UpdateUserLambdaVersion8toHLMbOCTK6OsXQRzpES5EWDsiEEyngnTl1hcCM6Rg"
       }
+    },
+    "resources": {
+      "Resources": {
+        "MyCognitoUserPool": {
+          "Type": "AWS::Cognito::UserPool",
+          "Properties": {
+            "UserPoolName": "guyLeifer-skills"
+          }
+        },
+        "MyCognitoUserPoolClient": {
+          "Type": "AWS::Cognito::UserPoolClient",
+          "Properties": {
+            "UserPoolId": {
+              "Ref": "eu-west-1_PsmNFdo3z"
+            },
+            "ClientName": "guyLeifer-skills-app-client",
+            "GenerateSecret": false
+          }
+        },
+        "MyCognitoAuthorizer": {
+          "Type": "AWS::ApiGateway::Authorizer",
+          "Properties": {
+            "Name": "my-cognito-authorizer",
+            "Type": "COGNITO_USER_POOLS",
+            "IdentitySource": "method.request.header.Authorization",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ProviderARNs": [
+              {
+                "Fn::GetAtt": [
+                  "MyCognitoUserPool",
+                  "Arn"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "Outputs": {}
     },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.ts",
@@ -1283,13 +1383,16 @@
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
       }
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/lambda/DEV/1692024906728-2023-08-14T14:55:06.728Z",
+    "artifactDirectoryName": "serverless/lambda/DEV/1692293354310-2023-08-17T17:29:14.310Z",
     "artifact": ""
   }
 }

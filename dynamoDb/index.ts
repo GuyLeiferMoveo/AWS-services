@@ -1,20 +1,12 @@
+import { APIGatewayProxyHandler } from "aws-lambda";
 import { createTableIfNotExists } from "../aws-config/dynamoDB";
-import { logger } from "../utils/logger";
+import { createResponse } from "../aws-config/apiGetway";
 
-export const handler = async (event: any) => {
-  logger("event", event);
+export const handler: APIGatewayProxyHandler = async (event) => {
   try {
     const dynamoDbTable = await createTableIfNotExists();
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ dynamoDbTable: dynamoDbTable }),
-    };
+    return createResponse(200, { dynamoDbTable: dynamoDbTable });
   } catch (error: any) {
-    logger("error", error);
-    const response = {
-      statusCode: 400,
-      body: JSON.stringify({ error: error.message }),
-    };
-    return response;
+    return createResponse(400, { error: error.message });
   }
 };

@@ -1,3 +1,4 @@
-export const cognitoUserPool = "guyLeifer-skills";
+export const cognitoUserPoolName = "guyLeifer-skills";
+export const cognitoUserPoolId = "eu-west-1_PsmNFdo3z";
 export const cognitoUserPoolRegion = "eu-west-1";
-export const cognitoAppClientName = "guyLeifer-skills-app-client";
+export const cognitoUserPoolAppClientName = "guyLeifer-skills-app-client";

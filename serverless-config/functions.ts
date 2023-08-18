@@ -1,4 +1,4 @@
-import { iamRoleStatements, moveoRuleARN } from "./roles";
+import { moveoRuleARN } from "../aws-config/roles";
 
 export const functions = {
   userPool: {
@@ -36,7 +36,7 @@ export const functions = {
         },
       },
     ],
-    iamRoleStatements,
+    // iamRoleStatements: [cognitoCreateUserRoles],
   },
   getUser: {
     handler: "getUser/index.handler",
@@ -70,6 +70,10 @@ export const functions = {
         http: {
           method: "put",
           path: "user",
+          authorizer: {
+            type: "COGNITO_USER_POOLS",
+            authorizerId: { Ref: "MyCognitoAuthorizer" },
+          },
         },
       },
     ],

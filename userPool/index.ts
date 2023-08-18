@@ -1,23 +1,15 @@
+import { APIGatewayProxyHandler } from "aws-lambda";
 import { createUserPoolAndAppClient } from "../aws-config/cognito";
-import { logger } from "../utils/logger";
+import { createResponse } from "../aws-config/apiGetway";
 
-export const handler = async (event: any) => {
-  logger("event", event);
+export const handler: APIGatewayProxyHandler = async (event) => {
   try {
     const userPoolDetails = await createUserPoolAndAppClient();
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        userPoolId: userPoolDetails?.userPoolId,
-        appClientId: userPoolDetails?.appClientId,
-      }),
-    };
+    return createResponse(200, {
+      userPoolId: userPoolDetails?.userPoolId,
+      appClientId: userPoolDetails?.appClientId,
+    });
   } catch (error: any) {
-    logger("error", error);
-    const response = {
-      statusCode: 400,
-      body: JSON.stringify({ error: error.message }),
-    };
-    return response;
+    return createResponse(400, { error: error.message });
   }
 };

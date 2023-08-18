@@ -1,8 +1,7 @@
 import { CognitoIdentityServiceProvider, config as AWSConfig } from "aws-sdk";
-import { logger } from "../utils/logger";
 import {
-  cognitoAppClientName,
-  cognitoUserPool,
+  cognitoUserPoolAppClientName,
+  cognitoUserPoolName,
   cognitoUserPoolRegion,
 } from "./constants";
 
@@ -25,7 +24,6 @@ const checkIfUserPollExists = async (cognitoUserPoolName: string) => {
     if (!existingUserPool)
       throw new Error(`User Pool ${cognitoUserPoolName} wasn't found`);
 
-    logger("User Pool already exists. User Pool ID:", existingUserPool.Id);
     return existingUserPool.Id;
   } catch (error) {
     console.error("Error checking for existing User Pool:", error);
@@ -35,7 +33,7 @@ const checkIfUserPollExists = async (cognitoUserPoolName: string) => {
 
 const createUserPool = async (
   PoolName: string,
-  UsernameAttributes: string[]
+  UsernameAttributes?: string[]
 ) => {
   try {
     const userPoolParams = {
@@ -49,15 +47,13 @@ const createUserPool = async (
           RequireSymbols: false,
         },
       },
-      //   UsernameAttributes: ["email"],
-      UsernameAttributes,
+      ...(UsernameAttributes && { UsernameAttributes }), // UsernameAttributes,
     };
 
     const userPoolResponse = await cognitoIdentityServiceProvider
       .createUserPool(userPoolParams)
       .promise();
     const userPoolId = userPoolResponse.UserPool?.Id;
-    logger("User Pool ID:", userPoolId);
     return userPoolId;
   } catch (error) {
     console.error("Error checking for existing User Pool:", error);
@@ -78,13 +74,7 @@ const checkIfUserPollAppClientExists = async (
       (client) => client.ClientName === appClientName
     );
 
-    if (existingAppClient) {
-      logger(
-        "App Client already exists. App Client ID:",
-        existingAppClient.ClientId
-      );
-      return existingAppClient.ClientId;
-    }
+    if (existingAppClient) return existingAppClient.ClientId;
   } catch (error) {
     console.error("Error checking for existing User Pool:", error);
     return;
@@ -96,11 +86,14 @@ const createUserPoolAppClient = async (userPoolId: string) => {
     const appClientParams: CognitoIdentityServiceProvider.Types.CreateUserPoolClientRequest =
       {
         UserPoolId: userPoolId,
-        ClientName: "MyAppClient",
+        ClientName: cognitoUserPoolAppClientName,
         GenerateSecret: false,
         AllowedOAuthFlowsUserPoolClient: true,
         AllowedOAuthFlows: ["code", "implicit"],
         AllowedOAuthScopes: ["phone", "email", "openid", "profile"],
+        ExplicitAuthFlows: [
+          process.env.AUTH_FLOW_TYPE || "ALLOW_USER_PASSWORD_AUTH",
+        ],
         CallbackURLs: ["http://localhost:3000/callback"], // Replace with your callback URLs
         LogoutURLs: ["http://localhost:3000/logout"], // Replace with your logout URLs
       };
@@ -109,8 +102,6 @@ const createUserPoolAppClient = async (userPoolId: string) => {
       .createUserPoolClient(appClientParams)
       .promise();
     const appClientId = appClientResponse.UserPoolClient?.ClientId;
-
-    logger("Created App Client. App Client ID:", appClientId);
     return appClientId;
   } catch (error) {
     console.error("Error checking for existing User Pool:", error);
@@ -123,16 +114,18 @@ export const createUserPoolAndAppClient = async () => {
     AWSConfig.update({ region: cognitoUserPoolRegion });
 
     const userPoolId =
-      (await checkIfUserPollExists(cognitoUserPool)) ||
-      (await createUserPool(cognitoUserPool, ["email"]));
+      (await checkIfUserPollExists(cognitoUserPoolName)) ||
+      (await createUserPool(cognitoUserPoolName));
 
     if (!userPoolId)
-      throw new Error(`User Pool ${cognitoUserPool} did not found or created`);
+      throw new Error(
+        `User Pool ${cognitoUserPoolName} did not found or created`
+      );
 
     const appClientId =
       (await checkIfUserPollAppClientExists(
         userPoolId,
-        cognitoAppClientName
+        cognitoUserPoolAppClientName
       )) || (await createUserPoolAppClient(userPoolId));
     return { userPoolId, appClientId };
   } catch (error) {
